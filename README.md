@@ -43,17 +43,17 @@ In practice, I will train each model once and then test it parallely on multiple
 * I performed a stratified split 60:20:20 according to the label distribution on all three datasets.
 
 ### CORE
-* discarded 6.918 texts with multiple labels,
+* discarded 6.918 texts with multiple labels
 * discarded 6.844 texts with a fuzzy label
-* mapped (15) GINCORE labels to the original CORE labels, used only labels that will be used in GINCO as well
+* mapped (15) GINCORE labels to the original CORE labels, used only labels that will be used in GINCO as well --> used only instances belonging to the 12 GINCORE labels
 
-Final number of texts:  texts, train-dev-test split: 
+Final number of texts: 33,918 texts, train-dev-test split: 20,350:6,784:6,784
 
 ### Slovene GINCO
 * joined paragraphs into one block of text per document, used only paragraphs that are marked to be useful with the attribute "keep" (as I realised that using deduplicated paragraphs was incorrect, as in the annotation procedure, annotators never considered just the deduplicated paragraphs - the labels on the deduplicated text might not be correct. If we use deduplicated text, some instances have no text or less than 10 words.)
 * discarded labels with less than 5 instances, used only labels that appear in CORE as well
 
-Final number of texts:  texts, train-dev-test split: 
+Final number of texts: 810 texts, train-dev-test split: 486-162-162
 
 ### Machine-translated GINCO
 * used the same text (paragraphs with attribute "keep") as in the Slovene GINCO, performed machine translation into English on it. I used the DeepL machine translation system. As target language, British variety of English was used, as the English CORE corpus is derived from the General section of the GloWbE corpus (Corpus of Global Web-based English) where British variety is more present than American considering number of web pages (i.e. web documents), although they are almost equally distributed, considering number of words (see https://www.english-corpora.org/glowbe/). The prevalence of the British variety was confirmed with the American-British-variety Classifier:
@@ -76,7 +76,63 @@ In percentages:
 
  * discarded labels with less than 5 instances, used only labels that appear in CORE as well
 
-Final number of texts: texts, train-dev-test split: 
+Final number of texts: see Slovene GINCO (above)
+
+### Labels Distribution
+
+GINCO labels in CORE:
+
+|                         |   labels |   final %  |
+|:------------------------|----------|-----------:|
+| News                    |    12658 | 0.373194   |
+| Opinion/Argumentation   |     8980 | 0.264756   |
+| Information/Explanation |     3406 | 0.100419   |
+| Forum                   |     3108 | 0.0916328  |
+| Review                  |     1687 | 0.0497376  |
+| Instruction             |     1200 | 0.0353794  |
+| Promotion               |     1026 | 0.0302494  |
+| Research Article        |      804 | 0.0237042  |
+| Lyrical*                |      636 | NA         |
+| Interview               |      420 | 0.0123828  |
+| Prose                   |      276 | 0.00813727 |
+| FAQ*                    |      272 | NA         |
+| Legal/Regulation        |      186 | 0.00548381 |
+| Recipe                  |      167 | 0.00492364 |
+| Script/Drama*           |       22 | NA         |
+
+
+GINCO labels in (Slovene and MT) GINCO:
+
+|                            |   GINCORE |   final %  |
+|:---------------------------|-----------|-----------:|
+| Promotion                  |       209 | 0.258025   |
+| News                       |       204 | 0.251852   |
+| Information/Explanation    |       130 | 0.160494   |
+| Opinion/Argumentation      |       114 | 0.140741   |
+| List of Summaries/Excerpts*|       106 | NA         |
+| Forum                      |        52 | 0.0641975  |
+| Instruction                |        38 | 0.0469136  |
+| Other*                     |        34 | NA         |
+| Review                     |        17 | 0.0209877  |
+| Legal/Regulation           |        17 | 0.0209877  |
+| Announcement*              |        17 | NA         |
+| Correspondence*            |        16 | NA         |
+| Call*                      |        11 | NA         |
+| Research Article           |         9 | 0.0111111  |
+| Interview                  |         8 | 0.00987654 |
+| Recipe                     |         6 | 0.00740741 |
+| Prose                      |         6 | 0.00740741 |
+| Lyrical*                   |         4 | NA         |
+| FAQ*                       |         3 | NA         |
+| Script/Drama*              |         1 | NA         |
+
+
+Labels, marked with an * were not used in the experiments. Some of them were dicarded because they contained less than 5 instances in GINCO (Script/Drama, FAQ, Lyrical), others were discarded because they are not present in CORE.
+
+The final list of labels, used in the experiments:
+```
+LABELS = ['News', 'Forum', 'Opinion/Argumentation', 'Review', 'Research Article', 'Information/Explanation', 'Promotion', 'Instruction', 'Prose', 'Interview', 'Legal/Regulation', 'Recipe']
+```
 
 ### Hyperparameters
 
@@ -84,10 +140,10 @@ Final number of texts: texts, train-dev-test split:
 * separate set (and hyperparameter search) for when training on SL_GC and MT_GC -> dev set should be used for training
 
 ## TO DO:
-* prepare the datasets once again, discarding the labels that are not present in both GINCO and CORE - so that we have comparable number of labels
-
 * set up the code for hyperparameter search
-
+* learn XML-RoBERTA on CORE, test
+* learn XML-RoBERTA on SI-GINCO, test
+* learn XML-RoBERTA on MT-GINCO, test
 
 ## Further research
 
