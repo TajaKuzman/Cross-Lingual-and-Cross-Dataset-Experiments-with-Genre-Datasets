@@ -2,29 +2,21 @@
 
 ## Overview of the task
 
-I will perform cross-dataset and cross-lingual text classification (automatic genre identification) experiments to explore comparability of two genre-annotated corpora, English CORE corpus and Slovene GINCO corpus. To this end, I will 1) train and test on the same dataset to obtain baseline results, 2) train on Slovene corpus and test on English corpus (cross-lingual classification) to see how appropriate whether we can achieve cross-lingual transfer by using these two datasets, 3) train on Slovene corpus, machine-translated to English, and test on English corpus (cross-dataset classification) to explore comparability of corpora while minimising the impact of the language.
+I perform cross-dataset and cross-lingual text classification (automatic genre identification) experiments to explore comparability of two genre-annotated corpora, English CORE corpus and Slovene GINCO corpus. To this end, I 1) train and test on the same dataset to obtain baseline results, 2) train on Slovene corpus and test on English corpus (cross-lingual classification) and vice versa to see whether we can achieve cross-lingual transfer by using these two datasets, 3) train on Slovene corpus, machine-translated to English, and test on English corpus (cross-dataset classification) to explore comparability of corpora while minimising the impact of the language.
+
+In addition to this, I compare two multilingual Transformer models on these tasks: (base-sized) XLM-RoBERTa and CroSloEngual BERT.
 
 ### Datasets
-We will perform experiments on 3 datasets, all using the GINCORE labels:
+We perform experiments on 3 datasets, all using the GINCORE labels:
 * Slovene GINCO (SL_GC), 
 * English CORE (EN_C)
 * machine-translated GINCO (MT_GC: SL_GC, machine-translated to English)
 
 ### Experiments:
-I'll do one run of each experiment.
+I did one run of each experiment.
 
-1.	in-dataset experiments:
-    * train and test on SL_GC
-    * train and test on EN_GC
-    * train and test on MT_GC
+In practice, I train each model once and then test it parallely on multiple test datasets. Out of interest, I also analyse cross-lingual and cross-dataset results in the other directions:
 
-2. cross-lingual experiment:
-    * train on SL_GC, test on EN_GC
-
-3. cross-dataset experiment (on English train and test split, to minimise the impact of cross-lingual learning):
-    * train on MT_GC, test on EN_GC
-
-In practice, I will train each model once and then test it parallely on multiple test datasets. Out of interest, I will also analyse cross-lingual and cross-dataset results in the other directions (that won't be included in the paper):
 1. train on SL_GC, test on:
     * SL_GC (in-dataset)
     * EN_GC (cross-lingual)
@@ -35,7 +27,7 @@ In practice, I will train each model once and then test it parallely on multiple
 
 3. train on EN_GC, test on:
     * EN_GC (in-dataset)
-    * SL_GC (out of interest - cross-lingual experiment in the other direction)
+    * SL_GC (cross-lingual)
     * MT_GC (out of interest - cross-dataset experiment in the other direction)
 
 ## Preparation of the corpora
@@ -80,7 +72,7 @@ Final number of texts: see Slovene GINCO (above)
 
 ### Labels Distribution
 
-GINCO labels in CORE:
+GINCORE labels in CORE:
 
 |                         |   labels |   final %  |
 |:------------------------|----------|-----------:|
@@ -101,7 +93,7 @@ GINCO labels in CORE:
 | Script/Drama*           |       22 | NA         |
 
 
-GINCO labels in (Slovene and MT) GINCO:
+GINCORE labels in (Slovene and MT) GINCO:
 
 |                            |   GINCORE |   final %  |
 |:---------------------------|-----------|-----------:|
@@ -136,14 +128,70 @@ LABELS = ['News', 'Forum', 'Opinion/Argumentation', 'Review', 'Research Article'
 
 ### Hyperparameters
 
-* separate set (and hyperparameter search) for when training on CORE -> dev set should be used for training
-* separate set (and hyperparameter search) for when training on SL_GC and MT_GC -> dev set should be used for training
+* separate sets of hyperparameters were defined for CORE and GINCO (Slovene and MT). The hyperparameter search was performed by training on train data and testing on dev data. For both, the max_seq_length 512 was used and the default train_batch_size (8). Number of epochs (num_train_epochs) and learning_rate were defined with the hyperparameter search, where I first experimented with different epochs (setting the learning rate to 1e-5) and then with different learning rates (setting the number of epochs to the optimum number, found in previous step). For details, see the code and results in the folder *hyperparameter-search*
+
+#### XLM-RoBERTa
+
+Optimum learning rate was revealed to be 1e-5. The final hyperparameters are the same for both corpora in all aspects, except the no. of epochs: 
+
+```
+GINCO_epoch = 60
+CORE_epoch = 9
+```
+
+Final hyperparameters:
+```
+        args= {
+             "overwrite_output_dir": True,
+             "num_train_epochs": epochs,
+             "labels_list": LABELS,
+             "learning_rate": 1e-5,
+             "no_cache": True,
+             "no_save": True,
+             "max_seq_length": 512,
+             "save_steps": -1,
+             "use_multiprocessing": True,
+             "use_multiprocessing_for_evaluation":True,
+             }
+```
+
+Performance of the models on the dev split with final parameters:
+* GINCO: MacroF1: 0.754, MicroF1: 0.765
+* CORE: MacroF1: 0.696, MicroF1: 0.753,
+
+### CroSloEngual BERT
+
+## Results of the experiments:
+
+### Dummy classifier:
+1. On GINCO:
+* most-frequent: Macro F1: 0.034, Micro F1: 0.259
+* stratified: Macro F1: 0.064, Micro F1: 0.179
+
+2. On CORE:
+* most-frequent: Macro F1: 0.036, Micro F1: 0.363
+* stratified: Macro F1: 0.070, Micro F1: 0.226
+
+### XLM-RoBERTa:
+
+1.	in-dataset experiments:
+    * train and test on SL_GC: Macro f1: 0.734, MicroF1: 0.802
+    * train and test on EN_GC: Macro f1: 0.72, Micro f1: 0.769
+    * train and test on MT_GC: Macro f1: 0.87, Micro f1: 0.815
+
+2. cross-lingual experiment:
+    * train on SL_GC, test on EN_GC: Macro f1: 0.537, Micro f1: 0.631
+    * train on EN_GC, test on SL_GC: Macro f1: 0.611, Micro f1: 0.58
+
+3. cross-dataset experiment (on English train and test split, to minimise the impact of cross-lingual learning):
+    * train on MT_GC, test on EN_GC: Macro f1: 0.537, Micro f1: 0.634
+    * train on EN_GC, test on MT_GC: Macro f1: 0.668, Micro f1: 0.63
+
+### CroSloEngualBERT
 
 ## TO DO:
-* set up the code for hyperparameter search
-* learn XML-RoBERTA on CORE, test
-* learn XML-RoBERTA on SI-GINCO, test
-* learn XML-RoBERTA on MT-GINCO, test
+* perform hyperparameter search for CroSloEngualBERT
+* repeat experiments with CroSloEngualBERT
 
 ## Further research
 
