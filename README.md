@@ -179,6 +179,10 @@ Performance of the models on the dev split with final parameters:
     * train and test on EN_GC: Macro f1: 0.72, Micro f1: 0.769
     * train and test on MT_GC: Macro f1: 0.87, Micro f1: 0.815
 
+Analysis of F1 scores per labels showed that differences in Macro F1 between SL_GC and MT_GC occurred mostly because MT_GC better predicted very rare categories. See the graph below:
+<img src="results-RoBERTa/label-scores-for-indataset-experiments.png"/>
+
+
 2. cross-lingual experiment:
     * train on SL_GC, test on EN_GC: Macro f1: 0.537, Micro f1: 0.631
     * train on EN_GC, test on SL_GC: Macro f1: 0.611, Micro f1: 0.58
@@ -192,6 +196,7 @@ Performance of the models on the dev split with final parameters:
 ## TO DO:
 * perform hyperparameter search for CroSloEngualBERT
 * repeat experiments with CroSloEngualBERT
+* do (at least) one more run of all experiments (statistical significance)
 
 ## Further research
 
