@@ -223,6 +223,7 @@ Analysis of F1 scores per labels showed that differences in Macro F1 between SL_
 For more details, plots and confusion matrices, see **results-RoBERTa** and **results-CroSloEngualBERT** and the script **4-Analysing.Results.ipynb**
 
 The difference between the score labels between in-dataset experiments and cross-lingual experiments (CORE to SL-GINCO):
+
 <img style="width:80%" src="results-RoBERTa/label-scores-SI-GINCO-indataset-vs-transfer-to-CORE.png">
 
 ## Further research
