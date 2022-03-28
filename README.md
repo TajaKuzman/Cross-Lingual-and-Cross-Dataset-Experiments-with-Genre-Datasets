@@ -9,7 +9,7 @@ In addition to this, I compare two multilingual Transformer models on these task
 ### Datasets
 We perform experiments on 3 datasets, all using the GINCORE labels:
 * Slovene GINCO (SL_GC), 
-* English CORE (EN_C)
+* English CORE (EN_C) (not available on this repository)
 * machine-translated GINCO (MT_GC: SL_GC, machine-translated to English)
 
 ### Experiments:
