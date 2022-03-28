@@ -204,20 +204,21 @@ Performance of the models on the dev split with final parameters:
 
 |Setup (Trained on, Tested on)|Micro F1 (XMR)|Micro F1 (CSE BERT)|Macro F1 (XMR)|Macro F1 (CSE BERT)|
 |:----|----|----|----|----:|
-|SL-GINCO,SL-GINCO | 0.782 +/- 0.02 | 0.738 +/- 0.01 |0.725 +/- 0.01 | 0.599 +/- 0.06 |
-|MT-GINCO,MT-GINCO | 0.807 +/- 0.01 | 0.714 +/- 0.0 |0.841 +/- 0.03 | 0.501 +/- 0.05 |
-|CORE,CORE | 0.768 +/- 0.0 | 0.761 +/- 0.0 | 0.715 +/- 0.0 | 0.706 +/- 0.0 |
+|SL-GINCO, SL-GINCO | 0.782 +/- 0.02 | 0.738 +/- 0.01 |0.725 +/- 0.01 | 0.599 +/- 0.06 |
+|MT-GINCO, MT-GINCO | 0.807 +/- 0.01 | 0.714 +/- 0.0 |0.841 +/- 0.03 | 0.501 +/- 0.05 |
+|CORE, CORE | 0.768 +/- 0.0 | 0.761 +/- 0.0 | 0.715 +/- 0.0 | 0.706 +/- 0.0 |
 
 Analysis of F1 scores per labels showed that differences in Macro F1 between SL_GC and MT_GC occurred mostly because MT_GC better predicted very rare categories. That is why is repeated runs two more times to be able to calculate average scores and leave less to chance.
 
 
 2. cross-lingual and cross-dataset experiments:
+
 |Setup (Trained on, Tested on)|Micro F1 (XMR)|Micro F1 (CSE BERT)|Macro F1 (XMR)|Macro F1 (CSE BERT)|
 |:----|----|----|----|----:|
-|SL-GINCO,CORE | 0.639 +/- 0.01 | 0.547 +/- 0.02 | 0.539 +/- 0.01 | 0.391 +/- 0.02 |
-|MT-GINCO,CORE | 0.625 +/- 0.01 | 0.585 +/- 0.01 | 0.521 +/- 0.01 | 0.409 +/- 0.01 |
-|CORE,SL-GINCO | 0.603 +/- 0.02 | 0.566 +/- 0.02 | 0.575 +/- 0.03 | 0.51 +/- 0.03 |
-|CORE,MT-GINCO | 0.63 +/- 0.02 | 0.63 +/- 0.01 | 0.663 +/- 0.03 | 0.543 +/- 0.01 |
+|SL-GINCO, CORE | 0.639 +/- 0.01 | 0.547 +/- 0.02 | 0.539 +/- 0.01 | 0.391 +/- 0.02 |
+|MT-GINCO, CORE | 0.625 +/- 0.01 | 0.585 +/- 0.01 | 0.521 +/- 0.01 | 0.409 +/- 0.01 |
+|CORE, SL-GINCO | 0.603 +/- 0.02 | 0.566 +/- 0.02 | 0.575 +/- 0.03 | 0.51 +/- 0.03 |
+|CORE, MT-GINCO | 0.63 +/- 0.02 | 0.63 +/- 0.01 | 0.663 +/- 0.03 | 0.543 +/- 0.01 |
 
 For more details, plots and confusion matrices, see **results-RoBERTa** and **results-CroSloEngualBERT** and the script **4-Analysing.Results.ipynb**
 
