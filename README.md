@@ -130,9 +130,9 @@ LABELS = ['News', 'Forum', 'Opinion/Argumentation', 'Review', 'Research Article'
 
 * separate sets of hyperparameters were defined for CORE and GINCO (Slovene and MT). The hyperparameter search was performed by training on train data and testing on dev data. For both, the max_seq_length 512 was used and the default train_batch_size (8). Number of epochs (num_train_epochs) and learning_rate were defined with the hyperparameter search, where I first experimented with different epochs (setting the learning rate to 1e-5) and then with different learning rates (setting the number of epochs to the optimum number, found in previous step). For details, see the code and results in the folder *hyperparameter-search*
 
-#### XLM-RoBERTa
+Optimum learning rate was revealed to be 1e-5. The final hyperparameters are the same for both corpora in all aspects, except the no. of epochs.
 
-Optimum learning rate was revealed to be 1e-5. The final hyperparameters are the same for both corpora in all aspects, except the no. of epochs: 
+#### XLM-RoBERTa
 
 ```
 GINCO_epoch = 60
@@ -161,6 +161,32 @@ Performance of the models on the dev split with final parameters:
 
 ### CroSloEngual BERT
 
+```
+GINCO_epoch = 90
+CORE_epoch = 6
+```
+
+Final hyperparameters:
+```
+        args= {
+             "overwrite_output_dir": True,
+             "num_train_epochs": epochs,
+             "labels_list": LABELS,
+             "learning_rate": 1e-5,
+             "no_cache": True,
+             "no_save": True,
+             "max_seq_length": 512,
+             "save_steps": -1,
+             "silent":True,
+             }
+```
+
+Performance of the models on the dev split with final parameters:
+* GINCO: MacroF1: 0.673, MicroF1: 0.759 
+* CORE: MacroF1: MacroF1: 0.724, MicroF1: 0.765
+
+! Note: when training with CroSloEngual BERT, do not use ```os.environ["TOKENIZERS_PARALLELISM"] = "false"```, because it produces errors.
+
 ## Results of the experiments:
 
 ### Dummy classifier:
@@ -172,31 +198,31 @@ Performance of the models on the dev split with final parameters:
 * most-frequent: Macro F1: 0.036, Micro F1: 0.363
 * stratified: Macro F1: 0.070, Micro F1: 0.226
 
-### XLM-RoBERTa:
+### XLM-RoBERTa (XLM-R) and CroSloEngual BERT (CSE BERT)
 
 1.	in-dataset experiments:
-    * train and test on SL_GC: Macro f1: 0.734, MicroF1: 0.802
-    * train and test on EN_GC: Macro f1: 0.72, Micro f1: 0.769
-    * train and test on MT_GC: Macro f1: 0.87, Micro f1: 0.815
 
-Analysis of F1 scores per labels showed that differences in Macro F1 between SL_GC and MT_GC occurred mostly because MT_GC better predicted very rare categories. See the graph below:
-<img src="results-RoBERTa/label-scores-for-indataset-experiments.png"/>
+|Setup (Trained on, Tested on)|Micro F1 (XMR)|Micro F1 (CSE BERT)|Macro F1 (XMR)|Macro F1 (CSE BERT)|
+|:----|----|----|----|----:|
+|SL-GINCO,SL-GINCO | 0.782 +/- 0.02 | 0.738 +/- 0.01 |0.725 +/- 0.01 | 0.599 +/- 0.06 |
+|MT-GINCO,MT-GINCO | 0.807 +/- 0.01 | 0.714 +/- 0.0 |0.841 +/- 0.03 | 0.501 +/- 0.05 |
+|CORE,CORE | 0.768 +/- 0.0 | 0.761 +/- 0.0 | 0.715 +/- 0.0 | 0.706 +/- 0.0 |
+
+Analysis of F1 scores per labels showed that differences in Macro F1 between SL_GC and MT_GC occurred mostly because MT_GC better predicted very rare categories. That is why is repeated runs two more times to be able to calculate average scores and leave less to chance.
 
 
-2. cross-lingual experiment:
-    * train on SL_GC, test on EN_GC: Macro f1: 0.537, Micro f1: 0.631
-    * train on EN_GC, test on SL_GC: Macro f1: 0.611, Micro f1: 0.58
+2. cross-lingual and cross-dataset experiments:
+|Setup (Trained on, Tested on)|Micro F1 (XMR)|Micro F1 (CSE BERT)|Macro F1 (XMR)|Macro F1 (CSE BERT)|
+|:----|----|----|----|----:|
+|SL-GINCO,CORE | 0.639 +/- 0.01 | 0.547 +/- 0.02 | 0.539 +/- 0.01 | 0.391 +/- 0.02 |
+|MT-GINCO,CORE | 0.625 +/- 0.01 | 0.585 +/- 0.01 | 0.521 +/- 0.01 | 0.409 +/- 0.01 |
+|CORE,SL-GINCO | 0.603 +/- 0.02 | 0.566 +/- 0.02 | 0.575 +/- 0.03 | 0.51 +/- 0.03 |
+|CORE,MT-GINCO | 0.63 +/- 0.02 | 0.63 +/- 0.01 | 0.663 +/- 0.03 | 0.543 +/- 0.01 |
 
-3. cross-dataset experiment (on English train and test split, to minimise the impact of cross-lingual learning):
-    * train on MT_GC, test on EN_GC: Macro f1: 0.537, Micro f1: 0.634
-    * train on EN_GC, test on MT_GC: Macro f1: 0.668, Micro f1: 0.63
+For more details, plots and confusion matrices, see **results-RoBERTa** and **results-CroSloEngualBERT** and the script **4-Analysing.Results.ipynb**
 
-### CroSloEngualBERT
-
-## TO DO:
-* perform hyperparameter search for CroSloEngualBERT
-* repeat experiments with CroSloEngualBERT
-* do (at least) one more run of all experiments (statistical significance)
+The difference between the score labels between in-dataset experiments and cross-lingual experiments (CORE to SL-GINCO):
+<img style="width:80%" src="results-RoBERTa/label-scores-SI-GINCO-indataset-vs-transfer-to-CORE.png">
 
 ## Further research
 
