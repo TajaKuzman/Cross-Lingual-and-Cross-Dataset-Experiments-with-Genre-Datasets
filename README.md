@@ -41,11 +41,30 @@ In practice, I train each model once and then test it parallely on multiple test
 
 Final number of texts: 33,918 texts, train-dev-test split: 20,350:6,784:6,784
 
+Text length in CORE:
+mean       1266.38711
+std        3229.96619
+min          52.00000
+25%         352.00000
+50%         649.00000
+75%        1175.00000
+max      118278.00000
+
 ### Slovene GINCO
 * joined paragraphs into one block of text per document, used only paragraphs that are marked to be useful with the attribute "keep" (as I realised that using deduplicated paragraphs was incorrect, as in the annotation procedure, annotators never considered just the deduplicated paragraphs - the labels on the deduplicated text might not be correct. If we use deduplicated text, some instances have no text or less than 10 words.)
 * discarded labels with less than 5 instances, used only labels that appear in CORE as well
 
 Final number of texts: 810 texts, train-dev-test split: 486-162-162
+
+Text length in GINCO:
+count     810.00000
+mean      364.40000
+std       485.34383
+min        12.00000
+25%        97.25000
+50%       198.50000
+75%       424.50000
+max      4134.00000
 
 ### Machine-translated GINCO
 * used the same text (paragraphs with attribute "keep") as in the Slovene GINCO, performed machine translation into English on it. I used the DeepL machine translation system. As target language, British variety of English was used, as the English CORE corpus is derived from the General section of the GloWbE corpus (Corpus of Global Web-based English) where British variety is more present than American considering number of web pages (i.e. web documents), although they are almost equally distributed, considering number of words (see https://www.english-corpora.org/glowbe/). The prevalence of the British variety was confirmed with the American-British-variety Classifier:
