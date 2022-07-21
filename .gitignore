@@ -1,2 +1,7 @@
 
 data/cleaned_CORE_corpora.json
+data/cleaned_CORE_corpora.csv
+data/CORE_dev.csv
+data/CORE_final_dev.zip
+data/CORE_train.csv
+data/CORE_test.csv
