@@ -34,7 +34,15 @@ For the experiments, we removed:
 
 The final number of instances, used for the experiments: 1415.
 
-Dataset that is used for the ML experiments: *extension-to-the-FTD/data/FTD-prepared-for-ML.txt*
+Dataset that is used for the ML experiments is split into the train-dev-test split according to the label distribution.
+
+|        | train              | test               | dev                |
+|:-------|:-------------------|:-------------------|:-------------------|
+| count (texts) | 849                | 283                | 283                |
+
+
+The splits are located in the *data* folder.
+
 Dataset with all texts and labels: *extension-to-the-FTD/data/FTD-dataset-with-all-information.txt*
 
 Text length:
