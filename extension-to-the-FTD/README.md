@@ -27,6 +27,12 @@ The distribution of the labels:
 
 Although the FTD article mentions 12 principal categories and 6 optional, it seems that the final FTD dataset is annotated only with 11 categories, out of which one is an "unsuitable" category.
 
+The table below shows how the FTD categories are connected to the GINCORE categories (based on the [guidelines](https://github.com/ssharoff/genre-keras)).
+
+<img style="width:80%" src="GINCORE-schema-plus-FTD.png">
+
+(FTD categories, marked with a * are not present in the FTD corpus.)
+
 For the experiments, we removed:
 * unsuitable texts, marked as "non-text" (125)
 * texts, annotated with multiple labels (139)
