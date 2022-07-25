@@ -29,7 +29,7 @@ Although the FTD article mentions 12 principal categories and 6 optional, it see
 
 The table below shows how the FTD categories are connected to the GINCORE categories (based on the [guidelines](https://github.com/ssharoff/genre-keras)).
 
-<img style="width:80%" src="GINCORE-schema-plus-FTD.png">
+<img style="width:100%" src="GINCORE-schema-plus-FTD.png">
 
 (FTD categories, marked with a * are not present in the FTD corpus.)
 
