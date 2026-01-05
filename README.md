@@ -1,5 +1,11 @@
 # Cross-dataset and cross-lingual experiments
 
+This repository contains the code used in the experiments presented in:
+
+[Kuzman, Taja, Nikola Ljubešić, and Senja Pollak. "Assessing comparability of genre datasets via cross-lingual and cross-dataset experiments." Jezikovne tehnologije in digitalna humanistika: zbornik konference, Jezikovne tehnologije in digitalna humanistika: zbornik konference. 2022.](https://nl.ijs.si/jtdh22/pdf/JTDH2022_Kuzman-et-al_Assessing-Comparability-of-Genre-Datasets.pdf)
+
+Licensed under the MIT License. See LICENSE. If you use this code, please cite the paper, mentioned above.
+
 ## Overview of the task
 
 We perform monolingual in-dataset and cross-lingual cross-dataset text classification (automatic genre identification) experiments to explore comparability of two genre-annotated corpora, English CORE corpus and Slovene GINCO corpus. To this end, we 1) train and test on the same dataset to obtain baseline results (in-dataset experiments), 2) train on Slovene corpus and test on English corpus (cross-lingual cross-dataset classification) and vice versa to see whether we can achieve cross-lingual transfer by using these two datasets, 3) train on Slovene corpus, machine-translated to English, and test on English corpus (cross-lingual cross-dataset classification) to explore whether there is any difference between using the GINCO dataset in Slovene and in English in in-dataset and cross-dataset experiments.
@@ -263,3 +269,8 @@ For more details, plots and confusion matrices, see **results-RoBERTa** and **re
 The difference between the score labels between in-dataset experiments and cross-lingual experiments (EN-GINCORE to SL-GINCORE):
 
 <img style="width:80%" src="results-RoBERTa/label-scores-SI-GINCO-indataset-vs-transfer-to-CORE.png">
+
+## Acknowledgments
+
+This work has received funding from the European Union's Connecting Europe Facility 2014-2020 - CEF Telecom, under Grant Agreement No. INEA/CEF/ICT/A2020/2278341. This communication reflects only the author's view. The Agency is not responsible for any use that may be made of the information it contains.
+This work was also funded by the Slovenian Research Agency within the Slovenian-Flemish bilateral basic research project "Linguistic landscape of hate speech on social media" (N06-0099 and FWO-G070619N, 2019–2023) and the research programme “Language resources and technologies for Slovene" (P6-0411).
